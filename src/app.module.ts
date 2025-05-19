@@ -1,18 +1,16 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module, forwardRef } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { EstudianteModule } from './estudiante/estudiante.module';
 import { ProyectoModule } from './proyecto/proyecto.module';
 import { ProfesorModule } from './profesor/profesor.module';
 import { EvaluacionModule } from './evaluacion/evaluacion.module';
-import { log } from 'console';
+import { EstudianteEntity } from './estudiante/estudiante.entity';
+import { ProyectoEntity } from './proyecto/proyecto.entity';
+import { EvaluacionEntity } from './evaluacion/evaluacion.entity';
+import { ProfesorEntity } from './profesor/profesor.entity';
 
 @Module({
   imports: [
-    EstudianteModule,
-    ProyectoModule,
-    ProfesorModule,
-    EvaluacionModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -21,17 +19,17 @@ import { log } from 'console';
       password: 'postgres',
       database: 'parcial',
       entities: [
-        EstudianteModule,
-        ProyectoModule,
-        ProfesorModule,
-        EvaluacionModule,
+        EstudianteEntity,
+        ProyectoEntity,
+        EvaluacionEntity,
+        ProfesorEntity,
       ],
-      dropSchema: true,
       synchronize: true,
-      keepConnectionAlive: true,
-      logging: true,
-      autoLoadEntities: true,
     }),
+    forwardRef(() => EstudianteModule),
+    forwardRef(() => ProyectoModule),
+    forwardRef(() => ProfesorModule),
+    forwardRef(() => EvaluacionModule),
   ],
 })
 export class AppModule {}

@@ -1,0 +1,34 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+
+export class ProyectoDto {
+    @IsString()
+    @IsNotEmpty()
+    readonly titulo: string;
+
+    @IsString()
+    @IsNotEmpty()
+    readonly area: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    readonly presupuesto: number;
+
+    @IsString()
+    @IsNotEmpty()
+    readonly programa: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    readonly estado: number;
+
+    @IsString()
+    @IsNotEmpty()
+    readonly fechaInicio: string;
+
+    @IsString()
+    @IsNotEmpty()
+    readonly fechaFin: string;
+}

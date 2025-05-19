@@ -1,19 +1,44 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  Entity,
+  Column,
+  Long,
+} from 'typeorm';
 import { EstudianteEntity } from 'src/estudiante/estudiante.entity';
 import { EvaluacionEntity } from 'src/evaluacion/evaluacion.entity';
 import { ProfesorEntity } from 'src/profesor/profesor.entity';
 
+@Entity()
 export class ProyectoEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: Long;
 
-    @OneToMany(() => EvaluacionEntity, (evaluacion) => evaluacion.proyecto)
-    evaluaciones: EvaluacionEntity[];
+  @Column()
+  titulo: string;
 
-    @ManyToOne(() => EstudianteEntity, (estudiante) => estudiante.proyectos)
-    lider: EstudianteEntity;
+  @Column()
+  area: string;
 
-    @ManyToOne(() => ProfesorEntity, (profesor) => profesor.mentorias)
-    mentor: ProfesorEntity;
+  @Column('decimal', { precision: 10, scale: 2 })
+  presupuesto: number;
 
+  @Column({ default: 0 })
+  estado: number;
+
+  @Column()
+  fechaInicio: string;
+
+  @Column({ nullable: true })
+  fechaFin: string;
+
+  @OneToMany(() => EvaluacionEntity, (evaluacion) => evaluacion.proyecto)
+  evaluaciones: EvaluacionEntity[];
+
+  @ManyToOne(() => EstudianteEntity, (estudiante) => estudiante.proyectos)
+  lider: EstudianteEntity;
+
+  @ManyToOne(() => ProfesorEntity, (profesor) => profesor.mentorias)
+  mentor: ProfesorEntity;
 }
