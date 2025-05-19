@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Long, Repository } from 'typeorm';
 import { EvaluacionEntity } from './evaluacion.entity';
 import { ProyectoEntity } from '../proyecto/proyecto.entity';
 import { ProfesorEntity } from '../profesor/profesor.entity';
@@ -54,14 +54,14 @@ export class EvaluacionService {
     return await this.evaluacionRepository.save(evaluacion);
   }
 
-  async findEvaluacionById(id: string): Promise<EvaluacionEntity> {
+  async findEvaluacionById(id: Long): Promise<EvaluacionEntity> {
     const evaluacion = await this.evaluacionRepository.findOne({
       where: { id },
       relations: ['proyecto', 'profesor'],
     });
 
     if (!evaluacion) {
-      throw new BadRequestException(`Evaluación con id ${id} no encontrada`);
+      throw new BadRequestException(`Evaluación con id no encontrada`);
     }
 
     return evaluacion;
